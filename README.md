@@ -2,14 +2,6 @@
 
 Explore your data with SQL. Easily create charts and dashboards, and share them with your team.
 
-[Try it out](https://blazer.dokkuapp.com)
-
-[![Screenshot](https://blazer.dokkuapp.com/assets/blazer-90fb6ce8ad25614c6f9c3b4619cbfbd66fa3d6567dac34d83df540f6688665f1.png)](https://blazer.dokkuapp.com)
-
-Blazer is also available as a [Docker image](https://github.com/ankane/blazer-docker).
-
-:tangerine: Battle-tested at [Instacart](https://www.instacart.com/opensource)
-
 ## Features
 
 - **Multiple data sources** - PostgreSQL, MySQL, Redshift, and [many more](#full-list)
