@@ -1,0 +1,71 @@
+<% blazer_title "Checks" %>
+
+<div id="header" class="topbar row m-1 p-1 border-bottom">
+  <div class="col-md-8">
+    <input id="search" type="text" placeholder="Start typing a query or state" class="search form-control" />
+  </div>
+
+  <div class="col-md-4 text-right">
+    <div class="btn-group">
+      <%= link_to "New Check", new_check_path, class: "btn btn-info" %>
+      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to "Home", root_path, class: "dropdown-item" %></li>
+        <li role="separator" class="divider"></li>
+        <li><%= link_to "New Query", new_query_path, class: "dropdown-item" %></li>
+        <li><%= link_to "New Dashboard", new_dashboard_path, class: "dropdown-item" %></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<table id="checks" class="table">
+  <thead>
+    <tr>
+      <th>Query</th>
+      <th>State</th>
+      <th>Run</th>
+      <th>Notify</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @checks.each do |check| %>
+      <tr>
+        <td><%= link_to check.query.name, check.query %> <span class="text-muted"><%= check.try(:check_type).to_s.gsub("_", " ") %></span></td>
+        <td>
+          <% if check.state %>
+            <small class="check-state <%= check.state.parameterize.gsub("-", "_") %>"><%= check.state.upcase %></small>
+          <% end %>
+        </td>
+        <td><%= check.schedule if check.respond_to?(:schedule) %></td>
+        <td>
+          <ul class="list-unstyled">
+            <% check.split_emails.each do |email| %>
+              <li><%= email %></li>
+            <% end %>
+            <% check.split_slack_channels.each do |channel| %>
+              <li><%= channel %></li>
+            <% end %>
+          </ul>
+        </td>
+        <td>
+          <%= link_to "Edit", edit_check_path(check), class: "btn btn-info" %>
+          <%= link_to "Run Now", query_path(check.query), class: "btn btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+  $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase()
+    $("#checks tbody tr").filter( function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    })
+  }).focus()
+</script>
